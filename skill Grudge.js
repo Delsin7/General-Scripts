@@ -43,7 +43,7 @@ AttackEvaluator.PassiveAction._getSurvivalValue = function(virtualActive, virtua
 };
 
 var alias2090grudge = AttackEvaluator.HitCritical.calculateDamage;
-AttackEvaluator.HitCritical.calculateDamage = function(virtualActive, virtualPassive, entry) {//moving to multihit system since it causes issues with being accessed before
+AttackEvaluator.HitCritical.calculateDamage = function(virtualActive, virtualPassive, entry) {
 	var damage = alias2090grudge.call(this, virtualActive, virtualPassive, entry);
 	var active = virtualActive.unitSelf;
 	var passive = virtualPassive.unitSelf;
@@ -61,25 +61,15 @@ AttackEvaluator.HitCritical.calculateDamage = function(virtualActive, virtualPas
 	return damage;
 };
 
-var alias2091grudge = RealBattle.endBattle;//reason it wasn't working was because still had BaseBattle instead of RealBattle >.>
+var alias2091grudge = RealBattle.endBattle;
 RealBattle.endBattle = function() {
 	
 	var battlerActive = this.getActiveBattler();
 	var battlerPassive = this.getPassiveBattler();
 
 	if(battlerActive.getUnit().custom.grudge){
-		//root.log('active has grudge');
 		delete battlerActive.getUnit().custom.grudge;
-		//battlerActive.getUnit().setHp(0);//0 doesn't update, higher amounts work, find another kill solution
-		//this._uiBattleLayout.setDamage(battlerActive, 1, false, false);
-		DamageControl.setDeathState(battlerActive.getUnit());//to get it to kill unit visually would prolly need a check somewhere else
-		//1000,
-		//sound = root.createResourceHandle(true, 1000, 0, 0, 0);
-		//MediaControl.soundPlay(sound);
-		//DamageControl.reduceHp(battlerActive.getUnit(),1);
-		//battlerActive.lostBattler();
-		//battlerActive.setColorAlpha(alpha);
-		//root.log(battlerActive.getUnit().custom.grudge);
+		DamageControl.setDeathState(battlerActive.getUnit());
 	}
 	if(battlerPassive.getUnit().custom.grudge){
 		delete battlerPassive.getUnit().custom.grudge;
